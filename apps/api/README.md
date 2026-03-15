@@ -80,3 +80,41 @@ docker compose down -v
 The GraphQL schema is in `src/calcms_api/graphql/schema.py`.
 Add types and resolvers there. Strawberry integrates with most Python web
 frameworks (ASGI/WSGI).
+
+## CRUD Smoke Test
+
+Once the API and Postgres are running, test CRUD on `/content`.
+
+Create:
+
+```bash
+curl -X POST http://127.0.0.1:8080/content \
+    -H "Content-Type: application/json" \
+    -d '{"title":"First Post","body":"Hello from Postgres","published":false}'
+```
+
+List:
+
+```bash
+curl http://127.0.0.1:8080/content
+```
+
+Read one:
+
+```bash
+curl http://127.0.0.1:8080/content/1
+```
+
+Update:
+
+```bash
+curl -X PATCH http://127.0.0.1:8080/content/1 \
+    -H "Content-Type: application/json" \
+    -d '{"published":true}'
+```
+
+Delete:
+
+```bash
+curl -X DELETE http://127.0.0.1:8080/content/1
+```

@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 
 from calcms_api.db import DATABASE_URL, init_db, ping_database
+from calcms_api.models import ContentItem as _ContentItem
+from calcms_api.routes.content import router as content_router
 from calcms_api.routes.health import router as health_router
 
 # update eventually to use .env
@@ -10,6 +12,7 @@ serverPort = "8080"
 app = FastAPI()
 
 app.include_router(health_router)
+app.include_router(content_router)
 
 
 @app.on_event("startup")
