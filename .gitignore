@@ -3,6 +3,7 @@ node_modules/
 dist/
 .turbo/
 *.tsbuildinfo
+*.tgz
 
 # Vite
 *.local
