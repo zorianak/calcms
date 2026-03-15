@@ -16,6 +16,8 @@ dependencies = [
     # Add your database driver here, e.g.:
     #   "psycopg[binary]>=3.1"     # PostgreSQL (recommended)
     #   "asyncpg>=0.29"            # Async PostgreSQL
+    "fastapi>=0.135.1",
+    "uvicorn>=0.41.0",
 ]
 
 [project.optional-dependencies]
