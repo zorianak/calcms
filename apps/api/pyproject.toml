@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "calcms-api"
+version = "0.0.1"
+description = "CalCMS Python API server"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # GraphQL server
+    "strawberry-graphql[debug-server]>=0.311.1",
+    # Kafka client
+    "kafka-python-ng>=2.2.3",
+    # Add your database driver here, e.g.:
+    #   "psycopg[binary]>=3.1"     # PostgreSQL (recommended)
+    #   "asyncpg>=0.29"            # Async PostgreSQL
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

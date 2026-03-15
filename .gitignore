@@ -1,3 +1,16 @@
+# ─── Node / JavaScript ───────────────────────────────────────────────────────
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Vite
+*.local
+
+# Panda CSS generated output
+styled-system/
+
+# ─── Python ──────────────────────────────────────────────────────────────────
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
