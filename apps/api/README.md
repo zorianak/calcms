@@ -29,7 +29,13 @@ python -m calcms_api.main
 
 PostgreSQL is the default database provider.
 
-Set environment variables before starting the API:
+Copy the example env file and set your values:
+
+```bash
+cp .env.example .env
+```
+
+Set environment variables in `.env` before starting the API:
 
 ```bash
 # Optional for future multi-db support. Only "postgres" works right now.
@@ -43,11 +49,32 @@ Then run:
 
 ```bash
 uv sync
+uv run alembic upgrade head
 uv run python -m calcms_api.main
 ```
 
 At startup, the app verifies DB connectivity and exits with an error if the
-database is unreachable.
+database is unreachable. Schema creation is not run automatically.
+
+### Migrations (Alembic)
+
+Apply all migrations:
+
+```bash
+uv run alembic upgrade head
+```
+
+Create a new migration after model changes:
+
+```bash
+uv run alembic revision --autogenerate -m "describe_change"
+```
+
+Rollback one step:
+
+```bash
+uv run alembic downgrade -1
+```
 
 ## Running With Docker
 
@@ -56,6 +83,8 @@ Use Docker Compose to run PostgreSQL and the API together:
 ```bash
 docker compose up --build
 ```
+
+Compose reads DB credentials from `.env`.
 
 Once containers are healthy, test the API:
 
