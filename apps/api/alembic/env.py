@@ -7,6 +7,7 @@ from pathlib import Path
 from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy.exc import OperationalError
 from sqlmodel import SQLModel
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,11 +51,17 @@ def run_migrations_online() -> None:
         poolclass=pool.NullPool,
     )
 
-    with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
+    try:
+        with connectable.connect() as connection:
+            context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
 
-        with context.begin_transaction():
-            context.run_migrations()
+            with context.begin_transaction():
+                context.run_migrations()
+    except OperationalError as exc:
+        raise SystemExit(
+            "Could not connect to PostgreSQL for migrations. "
+            "Check DATABASE_URL and ensure Postgres is running (for Docker: `docker compose up -d postgres`)."
+        ) from exc
 
 
 if context.is_offline_mode():

@@ -41,22 +41,37 @@ Set environment variables in `.env` before starting the API:
 # Optional for future multi-db support. Only "postgres" works right now.
 DB_PROVIDER=postgres
 
-# Adjust credentials/host/db name for your local Postgres.
-DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/calcms
+# Set real credentials/host/db name for your local Postgres.
+DATABASE_URL=postgresql+psycopg2://<db_user>:<db_password>@localhost:5432/<db_name>
 ```
 
 Then run:
 
 ```bash
 uv sync
+uv run calcms-preflight
 uv run alembic upgrade head
 uv run python -m calcms_api.main
+```
+
+If you see a warning about `VIRTUAL_ENV` not matching the project `.venv`, either
+deactivate your currently active shell environment first, or run with:
+
+```bash
+uv run --active calcms-preflight
+uv run --active alembic upgrade head
 ```
 
 At startup, the app verifies DB connectivity and exits with an error if the
 database is unreachable. Schema creation is not run automatically.
 
 ### Migrations (Alembic)
+
+Preflight check before migrations:
+
+```bash
+uv run calcms-preflight
+```
 
 Apply all migrations:
 
